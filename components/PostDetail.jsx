@@ -1,5 +1,6 @@
 import React from "react";
 import moment from "moment";
+import { RichText } from "@graphcms/rich-text-react-renderer";
 
 const PostDetail = ({ post }) => {
   const getContentFragment = (index, text, obj, type) => {
@@ -29,6 +30,7 @@ const PostDetail = ({ post }) => {
           </h3>
         );
       case "paragraph":
+        console.log(modifiedText);
         return (
           <p key={index} className="mb-8">
             {modifiedText.map((item, i) => (
@@ -46,7 +48,21 @@ const PostDetail = ({ post }) => {
         );
       case "image":
         return <img key={index} alt={obj.title} height={obj.height} width={obj.width} src={obj.src} />;
+      case "bulleted-list":
+        return (
+          <ul>
+            <RichText
+              key={index}
+              content={obj}
+              renderers={{
+                bold: ({ children }) => <strong>{children}</strong>,
+              }}
+            />
+          </ul>
+        );
       default:
+        // console.log(type);
+        // console.log(post);
         return modifiedText;
     }
   };
@@ -59,7 +75,7 @@ const PostDetail = ({ post }) => {
       <div className="px-4 lg:px-0">
         <div className="flex items-center mb-8 w-full">
           <div className="block lg:flex text-center items-center mb-8 w-full">
-            <div className="flex items-center mb-4 lg:mb-0 w-full lg:w-auto mr-8">
+            <div className="flex justify-center items-center mb-4 lg:mb-0 w-full lg:w-auto mr-8">
               <img
                 src={post.author.photo.url}
                 className="align-middle rounded-full object-cover mr-2"
@@ -87,13 +103,15 @@ const PostDetail = ({ post }) => {
             </div>
           </div>
         </div>
-        <h1 className="mb-8 text-3xl font-semibold">{post.title}</h1>
+        <article>
+          <h1 className="mb-8 text-3xl font-semibold">{post.title}</h1>
 
-        {post.content.raw.children.map((typeObj, index) => {
-          const children = typeObj.children.map((item, itemIndex) => getContentFragment(itemIndex, item.text, item));
+          {post.content.raw.children.map((typeObj, index) => {
+            const children = typeObj.children.map((item, itemIndex) => getContentFragment(itemIndex, item.text, item));
 
-          return getContentFragment(index, children, typeObj, typeObj.type);
-        })}
+            return getContentFragment(index, children, typeObj, typeObj.type);
+          })}
+        </article>
       </div>
     </div>
   );

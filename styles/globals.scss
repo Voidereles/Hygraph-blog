@@ -65,3 +65,23 @@ a {
 * {
     box-sizing: border-box;
 }
+
+article {
+    line-height: 1.8;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-font-smoothing: antialiased !important;
+    text-rendering: optimizelegibility !important;
+    letter-spacing: 0.02rem;
+
+    ul,
+    ol {
+        list-style: initial;
+        margin: initial;
+        padding-left: 2.5rem;
+
+        li {
+            margin-bottom: 0.75rem;
+        }
+    }
+}
