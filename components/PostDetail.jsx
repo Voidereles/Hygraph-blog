@@ -1,6 +1,7 @@
 import React from "react";
 import moment from "moment";
 import { RichText } from "@graphcms/rich-text-react-renderer";
+import Link from "next/link";
 
 const PostDetail = ({ post }) => {
   const getContentFragment = (index, text, obj, type) => {
@@ -20,19 +21,28 @@ const PostDetail = ({ post }) => {
       }
     }
 
-    switch (type) {
+    console.log(obj);
+    console.log(type);
+    switch (obj.type) {
+      case "heading-two":
+        return (
+          <h3 key={index} className="text-2xl font-semibold text-slate-600 mb-4">
+            {modifiedText.map((item, i) => (
+              <React.Fragment key={i}>{item}</React.Fragment>
+            ))}
+          </h3>
+        );
       case "heading-three":
         return (
-          <h3 key={index} className="text-xl font-semibold mb-4">
+          <h3 key={index} className="text-xl font-semibold text-slate-600 mb-4">
             {modifiedText.map((item, i) => (
               <React.Fragment key={i}>{item}</React.Fragment>
             ))}
           </h3>
         );
       case "paragraph":
-        console.log(modifiedText);
         return (
-          <p key={index} className="mb-8">
+          <p key={index} className="mb-8 text-slate-800 text-sm md:text-base">
             {modifiedText.map((item, i) => (
               <React.Fragment key={i}>{item}</React.Fragment>
             ))}
@@ -40,7 +50,7 @@ const PostDetail = ({ post }) => {
         );
       case "heading-four":
         return (
-          <h4 key={index} className="text-md font-semibold mb-4">
+          <h4 key={index} className="text-md font-semibold text-slate-500 mb-4">
             {modifiedText.map((item, i) => (
               <React.Fragment key={i}>{item}</React.Fragment>
             ))}
@@ -60,17 +70,27 @@ const PostDetail = ({ post }) => {
             />
           </ul>
         );
+      case "link":
+        console.log("jioasdijoasdhijasid");
+        return (
+          <Link href={obj.href} title={obj.title}>
+            {obj.children[0].text}
+          </Link>
+        );
       default:
-        // console.log(type);
-        // console.log(post);
+        console.log(type);
         return modifiedText;
     }
   };
 
   return (
     <div className="bg-white shadow-lg rounded-lg lg:p-8 pb-12 mb-8">
-      <div className="relative overflow-hidden shadow-md mb-6">
-        <img src={post.featuredImage.url} alt={post.title} className="object-top h-full w-full rounded-t-lg" />
+      <div className="relative overflow-hidden md:shadow-md mb-6">
+        <img
+          src={post.featuredImage.url}
+          alt={post.title}
+          className="object-top p-2 md:p-0 h-full w-full rounded-t-lg"
+        />
       </div>
       <div className="px-4 lg:px-0">
         <div className="flex items-center mb-8 w-full">

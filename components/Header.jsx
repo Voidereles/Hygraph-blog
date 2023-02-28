@@ -12,7 +12,7 @@ const Header = () => {
   }, []); // empty to call only at start to get categories
 
   return (
-    <div className="container mx-auto px-10 mb-8">
+    <div className="container mx-auto px-2 lg:px-10 mb-8">
       <div className="border-b w-full inline-block border-blue-400 py-8">
         <div className="md:float-left block">
           <Link href="/">
